@@ -1,4 +1,4 @@
-description = "Analyze the existing documentation folder for gaps and generate a prioritized, traceable task list (tasks.md) for remediation."
+description = "Analyze the existing documentation folder for gaps and generate a prioritized, traceable task list (documentation-gaps.md) for remediation."
 
 prompt = """
 ---
@@ -40,7 +40,7 @@ Execution Steps
 
 [OUTPUT FILE & FORMAT]
 
-    File: Save output to /$ARGUMENTS Documentation/tasks.md.
+    File: Save output to /$ARGUMENTS Documentation/documentation-gaps.md.
 
     Format: A Markdown bulleted list. Each task must use the following structure:
 

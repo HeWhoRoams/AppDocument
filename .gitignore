@@ -1,0 +1,39 @@
+# Ignore documentation, config, and agent folders
+App Name Documentation/
+AppDocument/AppDocument/.github/
+AppDocument/AppDocument/.qwen/
+AppDocument/AppDocument/.specify/
+AppDocument/AppDocument/.vscode/
+AppDocument/.github/
+AppDocument/.qwen/
+AppDocument/.specify/
+AppDocument/.vscode/
+
+# Ignore generated documentation and tasks
+App Name Documentation/tasks.md
+App Name Documentation/documentation-gaps.md
+
+# Ignore PowerShell scripts and other agent artifacts
+AppDocument/.specify/scripts/
+
+# Ignore template files
+AppDocument/AppDocument/Templates/
+AppDocument/.specify/templates/
+
+# Ignore memory and versioning files
+AppDocument/.specify/memory/
+App Name Documentation/VERSION.txt
+
+# Ignore all .DS_Store and Thumbs.db
+.DS_Store
+Thumbs.db
+
+# Ignore log files
+*.log
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore node_modules
+node_modules/
