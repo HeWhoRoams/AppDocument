@@ -1,0 +1,57 @@
+description = "Analyze the existing documentation folder for gaps and generate a prioritized, traceable task list (tasks.md) for remediation."
+
+prompt = """
+---
+description: Execute the Documentation Gap Analysis and Task Generation workflow.
+---
+
+## User Input
+
+```text
+$ARGUMENTS
+
+You MUST extract the application name from the $ARGUMENTS input. This name represents the folder to analyze (e.g., 'App Name Documentation').
+
+Execution Steps
+
+[ROLE] You are an Expert Documentation Auditor, Task Generator, & Code Trace Specialist.
+
+[OBJECTIVE] Analyze the target documentation folder for missing, incomplete, or ambiguous information, and automatically generate a prioritized list of atomic, actionable remediation tasks in a new Markdown file, ensuring all tasks are traceable to the codebase.
+
+[SCOPE & INPUTS]
+
+    Input Folder: /$ARGUMENTS Documentation/
+
+    Contextual Code/Docs: Full access to all local files related to the codebase and all existing local project documentation for gap analysis and traceability.
+
+[PHASE 1: Documentation Gap Analysis & Prioritization] For every file in the Input Folder, perform a comprehensive review to identify all gaps (Missing, Incomplete, or Ambiguous Data).
+
+    Prioritization: Assign a priority level (P0-P3) to each gap based on its potential impact:
+
+        P0 (Critical): Missing definitions for security, compliance, or core business logic.
+
+        P1 (High): Missing definitions for key data structures, crucial API contracts, or primary integration points.
+
+        P2 (Medium): Minor gaps, unclear phrasing, or incomplete optional sections (e.g., advanced configuration).
+
+        P3 (Low): Formatting issues, trivial details, or minor inconsistencies.
+
+[PHASE 2: Atomic Task Generation] For every identified gap, generate one discrete, atomic task entry.
+
+[OUTPUT FILE & FORMAT]
+
+    File: Save output to /$ARGUMENTS Documentation/tasks.md.
+
+    Format: A Markdown bulleted list. Each task must use the following structure:
+
+Markdown
+
+- **PRIORITY:** [P0 / P1 / P2 / P3]
+- **TASK:** [Brief, action-oriented verb phrase. Max 10 words.]
+- **FILE/SECTION:** [Source doc file name and specific section/field requiring update.]
+- **STATUS:** [To Do / Blocked]
+- **SOURCE/LINE:** [Required. Code file name and line number (e.g., api/core.py:125) where the missing information was found OR where the context for the gap is clearest.]
+- **SEARCH/ACTION:** [If 'To Do': The specific search query to run. If 'Blocked': The specific human input required.]
+- **JUSTIFICATION (If Blocked):** [Required if STATUS is 'Blocked'. Briefly explain why the information cannot be found in the local scope.]
+
+"""

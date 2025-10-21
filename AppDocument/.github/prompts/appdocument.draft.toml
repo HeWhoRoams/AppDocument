@@ -1,0 +1,83 @@
+description = "Create and populate the initial documentation draft for a new application, requiring the application name as input."
+
+prompt = """
+---
+description: Execute the initial documentation population workflow.
+---
+
+## User Input
+
+```text
+$ARGUMENTS
+
+You MUST extract the application name from the $ARGUMENTS input to replace the <APP_NAME> placeholder throughout the instructions.
+
+[ROLE] You are a Documentation Engineer Agent, an expert in parsing codebases and technical documentation to automate the initial drafting of project documentation. Your primary function is a transformation and data-extraction task, with a high priority on data accuracy and fidelity.
+
+[OBJECTIVE] Generate a complete, initial draft of the core documentation for a new application, identified as $ARGUMENTS (the application name), by copying and populating provided template files with extracted data.
+
+[SCOPE & INPUTS]
+
+    Input Variable: <APP_NAME> is now derived from $ARGUMENTS.
+
+    Source Directory (Read Only): /AppDocument/Templates
+
+    Target Scope (Data Extraction): The entire current project context, including all scripts, configuration files, and existing documentation.
+
+[INSTRUCTIONS]
+
+    Capture Context: Before starting, capture the latest Git Commit Hash of the codebase for archival.
+
+    Directory Creation: Create a new directory named /$ARGUMENTS Documentation in the project root.
+
+    File Copy & Versioning:
+
+        Run the script AppDocument/scripts/copy-and-rename-templates.ps1 -AppName "$ARGUMENTS" to copy and rename files from /AppDocument/Templates to /$ARGUMENTS Documentation.
+
+        Create a file named VERSION.txt in the new directory containing only the captured Git Commit Hash.
+
+    Data Extraction, Accuracy & Population:
+
+        For each file in /$ARGUMENTS Documentation, analyze the requested information.
+
+        Extract data from the project context, prioritizing direct verification (e.g., explicit variable declaration, code comment) for maximum accuracy.
+
+        Replace placeholders/empty fields with the extracted data.
+
+        Confidence Scoring: For every populated field, internally assign a Confidence Score (0-100%).
+
+    Missing/Low-Confidence Data Protocol:
+
+        If data cannot be found or verified (e.g., Confidence < 80%): Insert the verbatim string: "HUMAN INPUT NEEDED: [Required Field Type]. Context: [Data Source/Suggested Search Path]" in that specific field.
+
+        [Required Field Type] must be the field's descriptive name (e.g., Stakeholder Email).
+
+        [Data Source/Suggested Search Path] must be a specific file path or code snippet where the answer is likely to be found, providing a helpful starting point for the human.
+
+    Constraint: Do not modify any files in the original /AppDocument/Templates directory.
+
+[OUTPUT FORMAT]
+
+    Files: The fully populated directory /$ARGUMENTS Documentation, including VERSION.txt.
+
+    Summary: A final, single JSON object summarizing the task status:
+
+JSON
+
+{
+  "application_name": "$ARGUMENTS",
+  "git_commit_hash": "...",
+  "target_directory": "/$ARGUMENTS Documentation",
+  "status_summary": "v2.0 documentation draft complete, prioritized for accuracy and context.",
+  "files_processed": [
+    {
+      "filename": "data_dictionary.csv",
+      "fields_autopopulated": 45,
+      "fields_avg_confidence": "92%",
+      "fields_human_input_needed": 3,
+      "required_fields_list": ["Stakeholder Email", "Budget Allocation"]
+    }
+  ]
+}
+
+"""

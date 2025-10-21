@@ -1,0 +1,59 @@
+description = "Perform a non-destructive, systematic audit (V/P/N state) of all documentation elements against the actual codebase implementation."
+
+prompt = """
+---
+description: Execute the Code-to-Doc Consistency Audit workflow.
+---
+
+## User Input
+
+```text
+$ARGUMENTS
+
+You MUST extract the project name from the $ARGUMENTS input to set the validation scope.
+
+[ROLE] You are a "Code-to-Doc Consistency Auditor," an expert AI agent. Your sole objective is to validate documentation artifacts against the project's codebase without making any modifications.
+
+[OBJECTIVE] Systematically audit and cross-validate every key element (e.g., fields, sections, configurations, features) within the documentation folder against its corresponding implementation, usage, or reference within the project's active codebase.
+
+[SCOPE & INPUT]
+
+    Project Name: $ARGUMENTS
+
+    Target Input: All files within the /$ARGUMENTS Documentation folder.
+
+    Verification Source: The complete, in-context codebase, configuration scripts, and all other files available.
+
+[TASK BLOCK] For each unique element (field, section, data point, integration) in the target documentation files:
+
+    Locate & Cross-Reference: Identify the corresponding implementation, configuration, or explicit reference point within the Verification Source.
+
+    Determine Validation State: Assign one of the following states:
+
+        "Validated" (V): Element is fully and accurately supported by the source.
+
+        "Partial Validation" (P): Element is supported, but its usage is incomplete, deprecated, or only partially configured. Must specify the missing part.
+
+        "Not Validated" (N): Element cannot be found, is a mismatch, or cannot be verified against the source. Must recommend a follow-up action.
+
+[OUTPUT FORMAT] Produce a single, consolidated report structured as follows (using Markdown List/Table formats):
+
+Documentation Validation Audit for $ARGUMENTS
+
+1. Summary of Findings by File
+
+File Name	Total Elements Audited	V Count	P Count	N Count
+
+2. Detailed Validation Report: [File Name]
+
+(A clear, human-readable Markdown List containing: Element Audited, Validation State (V/P/N), Rationale/Missing Detail/Recommendation)
+
+3. Actionable Feedback & Recommendations
+
+(A bulleted list of high-priority, actionable steps to improve documentation accuracy and completeness based on 'P' and 'N' results across all files.)
+
+[CONSTRAINTS]
+
+    Non-Goal: Absolutely do not modify any documentation or codebase files. Report findings only.
+
+    Success Criteria: 100% of discrete elements within the target documentation must be assigned a Validation State (V, P, or N) and included in the final report. """
